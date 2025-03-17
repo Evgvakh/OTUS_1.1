@@ -1,9 +1,10 @@
 import path from 'path';
 import { readdir } from 'node:fs/promises';
+import { fileURLToPath } from 'url';
 
 const dirPath = path.resolve('D:/OTUS');
 
-const tree = async (dir, depth = 0, currentDepth = 0) => {
+export const tree = async (dir, depth = 0, currentDepth = 0) => {
     const data = await readdir(dir, { withFileTypes: true})
     
     for (let item of data) {        
@@ -18,4 +19,10 @@ const tree = async (dir, depth = 0, currentDepth = 0) => {
     }   
 }
 
-await tree(dirPath, 4)
+export const runCLI = async (dirPath = path.resolve('D:/OTUS')) => {
+    await tree(dirPath, 1);
+};
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    runCLI();
+}
